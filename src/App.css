@@ -9,3 +9,6 @@
 .ant-modal-footer .ant-btn-primary{
   background-color: blue !important;
 }
+.ant-space-item{
+  display: flex !important;
+}

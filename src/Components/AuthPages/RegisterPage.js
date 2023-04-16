@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { colors } from "../../colors"
 
 import { Typography, Button } from "antd"
-import { Form, Input, FloatButton, Upload } from "antd"
+import { Form, Input, FloatButton, Upload, Modal } from "antd"
+import { PlusOutlined } from "@ant-design/icons"
 import { FiChevronLeft } from "react-icons/fi"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
@@ -68,7 +69,20 @@ const FloatingButton = styled(FloatButton)`
 const ImageContainer = styled(Upload)`
   width: 100px !important;
   margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 `
+
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = (error) => reject(error)
+  })
 
 function RegisterPage() {
   const Navigate = useNavigate()
@@ -80,31 +94,37 @@ function RegisterPage() {
 
   // image upload handlers
 
-  const [fileList, setFileList] = useState("")
+  const [previewOpen, setPreviewOpen] = useState(false)
+  const [previewImage, setPreviewImage] = useState("")
+  const [previewTitle, setPreviewTitle] = useState("")
+  const [fileList, setFileList] = useState([])
 
-  // const onChange = ({ fileList: newFileList }) => {
-  //   setFileList(newFileList)
-  // }
-  const onChange = (e) => {
-    setFileList({
-      image: e.target.files[0],
-    })
-  }
-  console.log("fileListontop", fileList)
-  const onPreview = async (file) => {
-    let src = file.url
-    if (!src) {
-      src = await new Promise((resolve) => {
-        const reader = new FileReader()
-        reader.readAsDataURL(file.originFileObj)
-        reader.onload = () => resolve(reader.result)
-      })
+  const handleCancel = () => setPreviewOpen(false)
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj)
     }
-    const image = new Image()
-    image.src = src
-    const imgWindow = window.open(src)
-    imgWindow?.document.write(image.outerHTML)
+
+    setPreviewImage(file.url || file.preview)
+    setPreviewOpen(true)
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    )
   }
+
+  const handleChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList)
+  }
+
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  )
+
+  // Api Call function handler
 
   const onFinish = async ({
     username,
@@ -115,7 +135,8 @@ function RegisterPage() {
     phoneNumber,
   }) => {
     const formData = new FormData()
-    formData.append("avatar", fileList.image)
+    console.log(fileList[0].originFileObj)
+    formData.append("avatar", fileList[0].originFileObj)
     formData.append("username", username)
     formData.append("password", password)
     formData.append("emailId", emailId)
@@ -187,18 +208,24 @@ function RegisterPage() {
             REGISTER
           </Title>
         </Header>
-        {/* <ImgCrop rotationSlider fillColor={colors.dark}>
-          <ImageContainer
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            listType="picture-card"
-            fileList={fileList}
-            onChange={onChange}
-            onPreview={onPreview}
-          >
-            {fileList.length < 1 && "+ Upload"}
-          </ImageContainer>
-        </ImgCrop> */}
-        <input type="file" onChange={onChange} />
+        <ImageContainer
+          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          listType="picture-circle"
+          fileList={fileList}
+          onPreview={handlePreview}
+          onChange={handleChange}
+        >
+          {fileList.length > 0 ? null : uploadButton}
+        </ImageContainer>
+        <Modal
+          open={previewOpen}
+          title={previewTitle}
+          footer={null}
+          onCancel={handleCancel}
+        >
+          <img alt="example" style={{ width: "100%" }} src={previewImage} />
+        </Modal>
+        {/* <input type="file" onChange={onChange} /> */}
         <Form
           name="basic"
           {...formItemLayout}

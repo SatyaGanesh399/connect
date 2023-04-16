@@ -1,10 +1,11 @@
 import React from "react"
-import avatar from "./Assets/avatar.jpg"
-import FeedImage from "./Assets/feed-image.jpg"
+import avatar from "../Feed/Assets/avatar.jpg"
+import FeedImage from "../Feed/Assets/feed-image.jpg"
 import { Avatar, Card, Space, Typography, Badge, Divider } from "antd"
 import { LikeFilled, DislikeFilled, MessageFilled } from "@ant-design/icons"
 import styled from "styled-components"
 import { colors } from "../../../colors"
+import MakePost from "../MakePost"
 
 const feed = [
   {
@@ -103,6 +104,9 @@ const { Text, Link } = Typography
 export const FeedCard = ({ item }) => {
   return (
     <FeedContainer item={item}>
+      <space>
+        <MakePost />
+      </space>
       <TopPart>
         <div>
           <Avatar size={50} src={item.avatar} />
@@ -162,36 +166,32 @@ function index() {
         <FeedCard item={feed[0]} />
       </Container>
       <Space size="middle" direction="vertical">
-        <Badge count={5}>
-          <NotificationCard
-            title="New Messages"
-            extra={<a href="#">Show All</a>}
-            style={{
-              width: 300,
-            }}
-          >
-            <p>New Message from Praveen Kumar</p>
-            <AntDivider />
-            <p>New Message from Anand_Hailstrom</p>
-            <AntDivider />
-            <p>New Message from Kathik N</p>
-          </NotificationCard>
-        </Badge>
-        <Badge count={10}>
-          <NotificationCard
-            title="New Notifications"
-            extra={<a href="#">Show All</a>}
-            style={{
-              width: 300,
-            }}
-          >
-            <p>Karthik commented on your post</p>
-            <AntDivider />
-            <p>Karthik and 20 more liked your post</p>
-            <AntDivider />
-            <p>Rithika and 16 more commented on your post</p>
-          </NotificationCard>
-        </Badge>
+        <NotificationCard
+          title="New Messages"
+          extra={<a href="#">Show All</a>}
+          style={{
+            width: 300,
+          }}
+        >
+          <p>Total Posts : 32</p>
+          <AntDivider />
+          <p>Highest Likes : 250</p>
+          <AntDivider />
+          <p>Highest Comments : </p>
+        </NotificationCard>
+        <NotificationCard
+          title="New Notifications"
+          extra={<a href="#">Show All</a>}
+          style={{
+            width: 300,
+          }}
+        >
+          <p>Karthik commented on your post</p>
+          <AntDivider />
+          <p>Karthik and 20 more liked your post</p>
+          <AntDivider />
+          <p>Rithika and 16 more commented on your post</p>
+        </NotificationCard>
       </Space>
     </OuterContainer>
   )

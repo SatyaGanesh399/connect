@@ -71,7 +71,7 @@ function LoginPage() {
       console.log(response)
       if (response.data.status == 200) {
         alert(response.data.message)
-        Navigate("/homepage")
+        Navigate("/home")
       } else {
         alert("Entered wrong password")
       }

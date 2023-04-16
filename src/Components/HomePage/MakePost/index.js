@@ -10,6 +10,7 @@ const CardContainer = styled.div`
   width: 100%;
   border-radius: 10px;
   margin: 20px 0px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 `
 const CardComp = styled(Card)`
   padding: 10px;

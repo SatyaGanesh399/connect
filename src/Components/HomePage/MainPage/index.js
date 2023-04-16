@@ -1,31 +1,123 @@
-import React from "react"
-import styled from "styled-components"
-import HomeScreenPost from "../HomeScreenPost"
-import Feed from "../Feed"
+import React, { useEffect, useState } from "react"
+import {
+  HomeOutlined,
+  NotificationOutlined,
+  UserOutlined,
+  MessageOutlined,
+  FileImageOutlined,
+} from "@ant-design/icons"
+import { Outlet } from "react-router-dom"
 import { colors } from "../../../colors"
-import AccountSummary from "./AccountSummary"
+import { useNavigate } from "react-router-dom"
 
-const MainPageContainer = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.03);
-  display: grid;
-  grid-template-columns: 0.6fr 1fr 0.6fr;
-  grid-template-rows: 1fr;
-  gap: 30px;
-`
+import { Avatar, Layout, Menu, Space, theme, Typography } from "antd"
 
-function index() {
+const { Header, Content, Sider } = Layout
+
+const items2 = [
+  {
+    icon: <HomeOutlined />,
+    key: "feed",
+    label: "Home",
+  },
+  {
+    icon: <MessageOutlined />,
+    key: "messages",
+    label: "Messages",
+  },
+  {
+    icon: <FileImageOutlined />,
+    key: "posts",
+    label: "My Posts",
+  },
+  {
+    icon: <NotificationOutlined />,
+    key: "notifications",
+    label: "Notifications",
+  },
+  {
+    icon: <UserOutlined />,
+    key: "profileSettings",
+    label: "Profile Settings",
+  },
+]
+
+const MainPage = () => {
+  const [selectedKey, setSelectedKey] = useState(["feed"])
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken()
+
+  const Navigate = useNavigate()
+  const onClick = (e) => {
+    setSelectedKey([e.key])
+    if (e.key === "feed") {
+      Navigate(`/home`)
+    } else {
+      Navigate(`/home/${e.key}`)
+    }
+  }
+
   return (
-    <MainPageContainer>
-      <AccountSummary />
-      <div>
-        <HomeScreenPost />
-        <Feed />
-      </div>
-      <div></div>
-    </MainPageContainer>
+    <Layout style={{ width: "100%", minHeight: "100vh" }}>
+      <Header
+        className="header"
+        style={{
+          backgroundColor: colors.primary,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography.Title
+          style={{
+            fontSize: "1.8rem",
+            fontWeight: "500",
+            textAlign: "center",
+            color: "white",
+            margin: 10,
+          }}
+        >
+          Connect
+        </Typography.Title>
+        <Space style={{ position: "absolute", right: 20, top: 12 }}>
+          <Avatar
+            size={40}
+            icon={<UserOutlined style={{ color: colors.dark }} />}
+            style={{
+              cursor: "pointer",
+              backgroundColor: colors.background,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          />
+        </Space>
+      </Header>
+      <Layout>
+        <Sider width={200} style={{ background: colorBgContainer }}>
+          <Menu
+            mode="inline"
+            onClick={onClick}
+            defaultSelectedKeys={selectedKey}
+            defaultOpenKeys={"home"}
+            style={{ height: "100%", borderRight: 0 }}
+            items={items2}
+          />
+        </Sider>
+        <Layout style={{ padding: "14px 0px 0px 14px" }}>
+          <Content
+            style={{
+              margin: 0,
+              minHeight: 280,
+            }}
+          >
+            <Outlet />
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
   )
 }
 
-export default index
+export default MainPage
