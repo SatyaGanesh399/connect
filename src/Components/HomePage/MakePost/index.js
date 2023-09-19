@@ -4,13 +4,12 @@ import styled from "styled-components"
 import { colors } from "../../../colors"
 import { UploadOutlined } from "@ant-design/icons"
 import avatar from "../Feed/Assets/avatar.jpg"
+import Link from "antd/es/typography/Link"
 const { TextArea } = Input
 
 const CardContainer = styled.div`
   width: 100%;
   border-radius: 10px;
-  margin: 20px 0px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 `
 const CardComp = styled(Card)`
   padding: 10px;
@@ -41,6 +40,7 @@ function index() {
       <CardComp bordered={false}>
         <TopPart>
           <Avatar size={30} src={avatar} />
+          <Link>Sam Martin</Link>
         </TopPart>
         <TextArea
           showCount

@@ -37,10 +37,13 @@ const FeedContainer = styled.div`
   flex-grow: 1;
 `
 const OuterContainer = styled(Space)`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1.5fr 0.5fr;
+  grid-template-rows: 1fr;
   align-items: flex-start;
-  justify-content: center;
+  margin: 0px auto;
   gap: 10px;
+  padding: 0px 15px 0px 0px;
 `
 const Container = styled(Space)`
   width: 100%;
@@ -97,7 +100,9 @@ const NotificationCard = styled(Card)`
 const AntDivider = styled(Divider)`
   margin: 5px;
 `
-
+const SideCards = styled(Space)`
+  margin: 0px auto;
+`
 const { Text, Link } = Typography
 
 export const FeedCard = ({ item }) => {
@@ -161,7 +166,7 @@ function index() {
         <FeedCard item={feed[0]} />
         <FeedCard item={feed[0]} />
       </Container>
-      <Space size="middle" direction="vertical">
+      <SideCards size="small" direction="vertical">
         <Badge count={5}>
           <NotificationCard
             title="New Messages"
@@ -192,7 +197,7 @@ function index() {
             <p>Rithika and 16 more commented on your post</p>
           </NotificationCard>
         </Badge>
-      </Space>
+      </SideCards>
     </OuterContainer>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import { Typography, Button } from "antd"
-import { Checkbox, Form, Input, FloatButton } from "antd"
+import { Checkbox, Form, Input, FloatButton, message } from "antd"
 import { colors } from "../../colors"
 import { useNavigate } from "react-router-dom"
 import { FiChevronLeft } from "react-icons/fi"
@@ -62,6 +62,8 @@ const FloatingButton = styled(FloatButton)`
 `
 
 function LoginPage() {
+  const [messageApi, contextHolder] = message.useMessage()
+
   const onFinish = async ({ username, password }) => {
     try {
       let response = await axios.post("http://localhost:8000/auth/login", {
@@ -70,10 +72,22 @@ function LoginPage() {
       })
       console.log(response)
       if (response.data.status == 200) {
-        alert(response.data.message)
+        await messageApi.open({
+          duration: 1,
+          type: "success",
+          content: response.data.message,
+        })
+        try {
+          localStorage.setItem("token", response.data.token)
+        } catch (error) {
+          localStorage.setItem("token", "")
+        }
         Navigate("/home")
       } else {
-        alert("Entered wrong password")
+        messageApi.open({
+          type: "error",
+          content: response.data.message,
+        })
       }
     } catch (error) {
       alert("error", error)
@@ -112,6 +126,7 @@ function LoginPage() {
       : null
   return (
     <Container>
+      {contextHolder}
       <InnerContainer>
         <FloatingButton
           shape="circle"

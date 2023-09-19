@@ -5,6 +5,7 @@ import {
   UserOutlined,
   MessageOutlined,
   FileImageOutlined,
+  MenuUnfoldOutlined,
 } from "@ant-design/icons"
 import { Outlet } from "react-router-dom"
 import { colors } from "../../../colors"
@@ -36,9 +37,9 @@ const items2 = [
     label: "Notifications",
   },
   {
-    icon: <UserOutlined />,
+    icon: <MenuUnfoldOutlined />,
     key: "profileSettings",
-    label: "Profile Settings",
+    label: "Settings",
   },
 ]
 

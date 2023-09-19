@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { colors } from "../../colors"
 
 import { Typography, Button } from "antd"
-import { Form, Input, FloatButton, Upload, Modal } from "antd"
+import { Form, Input, FloatButton, Upload, Modal, message } from "antd"
 import { PlusOutlined } from "@ant-design/icons"
 import { FiChevronLeft } from "react-icons/fi"
 import { useNavigate } from "react-router-dom"
@@ -86,6 +86,7 @@ const getBase64 = (file) =>
 
 function RegisterPage() {
   const Navigate = useNavigate()
+  const [messageApi, contextHolder] = message.useMessage()
   const [form] = Form.useForm()
   const [formLayout, setFormLayout] = useState("horizontal")
   const onFormLayoutChange = ({ layout }) => {
@@ -155,11 +156,24 @@ function RegisterPage() {
       )
       console.log(response)
       if (response.data.status === 200) {
-        alert(response.data.message)
+        await messageApi.open({
+          duration: 1,
+          type: "success",
+          content: response.data.message,
+        })
         Navigate("/login")
+      } else {
+        messageApi.open({
+          type: "error",
+          content: response.data.message,
+        })
       }
     } catch (error) {
-      alert("error occured while registration", error)
+      messageApi.open({
+        duration: 1,
+        type: "error",
+        content: error,
+      })
     }
   }
 
@@ -181,6 +195,7 @@ function RegisterPage() {
 
   return (
     <Container>
+      {contextHolder}
       <InnerContainer>
         <FloatingButton
           shape="circle"

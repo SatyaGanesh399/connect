@@ -11,4 +11,6 @@
 }
 .ant-space-item{
   display: flex !important;
+  width : 100% !important;
+  
 }
