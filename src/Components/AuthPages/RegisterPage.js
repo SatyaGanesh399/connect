@@ -136,8 +136,9 @@ function RegisterPage() {
     phoneNumber,
   }) => {
     const formData = new FormData()
-    console.log(fileList[0].originFileObj)
-    formData.append("avatar", fileList[0].originFileObj)
+    if (fileList && fileList.length > 0) {
+      formData.append("avatar", fileList[0].originFileObj)
+    }
     formData.append("username", username)
     formData.append("password", password)
     formData.append("emailId", emailId)

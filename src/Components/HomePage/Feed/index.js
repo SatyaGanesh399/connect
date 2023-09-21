@@ -38,7 +38,7 @@ const FeedContainer = styled.div`
 `
 const OuterContainer = styled(Space)`
   display: grid;
-  grid-template-columns: 1.5fr 0.5fr;
+  grid-template-columns: 0.6fr 1.8fr 0.6fr;
   grid-template-rows: 1fr;
   align-items: flex-start;
   margin: 0px auto;
@@ -103,6 +103,36 @@ const AntDivider = styled(Divider)`
 const SideCards = styled(Space)`
   margin: 0px auto;
 `
+const SideProfileCards = styled(Space)`
+  margin: 0px auto;
+  padding: 20px;
+  background: white;
+  width: 300px;
+  border-radius: 10px;
+`
+const CardProfile = styled(Space)`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+`
+
+const ProfileImage = styled(Space)`
+  margin: auto;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+`
+const TextContainer = styled(Space)`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  text-align: center;
+`
 const { Text, Link } = Typography
 
 export const FeedCard = ({ item }) => {
@@ -157,6 +187,33 @@ export const FeedCard = ({ item }) => {
 function index() {
   return (
     <OuterContainer>
+      <SideProfileCards>
+        <CardProfile>
+          <ProfileImage>
+            <img src={avatar} />
+          </ProfileImage>
+          <TextContainer>
+            <Typography.Text style={{ textAlign: "center" }}>
+              Satya Ganesh
+            </Typography.Text>
+            <Typography.Text>Full Stack Developer</Typography.Text>
+          </TextContainer>
+          <Space>
+            <TextContainer>
+              <Typography>Followers</Typography>
+              <Typography>100</Typography>
+            </TextContainer>
+            <TextContainer>
+              <Typography>Following</Typography>
+              <Typography>100</Typography>
+            </TextContainer>
+            <TextContainer>
+              <Typography>Friends</Typography>
+              <Typography>100</Typography>
+            </TextContainer>
+          </Space>
+        </CardProfile>
+      </SideProfileCards>
       <Container>
         <FeedCard item={feed[0]} />
         <FeedCard item={feed[0]} />

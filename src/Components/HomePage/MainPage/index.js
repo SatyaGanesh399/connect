@@ -1,63 +1,22 @@
 import React, { useEffect, useState } from "react"
 import {
-  HomeOutlined,
-  NotificationOutlined,
+  HomeFilled,
+  MessageFilled,
   UserOutlined,
-  MessageOutlined,
-  FileImageOutlined,
-  MenuUnfoldOutlined,
+  NotificationFilled,
+  SettingFilled,
 } from "@ant-design/icons"
 import { Outlet } from "react-router-dom"
 import { colors } from "../../../colors"
 import { useNavigate } from "react-router-dom"
+import "./index.css"
 
 import { Avatar, Layout, Menu, Space, theme, Typography } from "antd"
 
 const { Header, Content, Sider } = Layout
 
-const items2 = [
-  {
-    icon: <HomeOutlined />,
-    key: "feed",
-    label: "Home",
-  },
-  {
-    icon: <MessageOutlined />,
-    key: "messages",
-    label: "Messages",
-  },
-  {
-    icon: <FileImageOutlined />,
-    key: "posts",
-    label: "My Posts",
-  },
-  {
-    icon: <NotificationOutlined />,
-    key: "notifications",
-    label: "Notifications",
-  },
-  {
-    icon: <MenuUnfoldOutlined />,
-    key: "profileSettings",
-    label: "Settings",
-  },
-]
-
 const MainPage = () => {
-  const [selectedKey, setSelectedKey] = useState(["feed"])
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken()
-
   const Navigate = useNavigate()
-  const onClick = (e) => {
-    setSelectedKey([e.key])
-    if (e.key === "feed") {
-      Navigate(`/home`)
-    } else {
-      Navigate(`/home/${e.key}`)
-    }
-  }
 
   return (
     <Layout style={{ width: "100%", minHeight: "100vh" }}>
@@ -67,21 +26,38 @@ const MainPage = () => {
           backgroundColor: colors.primary,
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "space-between",
         }}
       >
         <Typography.Title
+          onClick={() => Navigate(`/home`)}
           style={{
             fontSize: "1.8rem",
             fontWeight: "500",
             textAlign: "center",
             color: "white",
             margin: 10,
+            cursor: "pointer",
           }}
         >
           Connect
         </Typography.Title>
-        <Space style={{ position: "absolute", right: 20, top: 12 }}>
+
+        <Space>
+          <Space style={{ marginRight: 30 }}>
+            <a onClick={() => Navigate(`/home`)}>
+              <HomeFilled className="icon" />
+            </a>
+            <a onClick={() => Navigate(`/home/messages`)}>
+              <MessageFilled className="icon" />
+            </a>
+            <a onClick={() => Navigate(`/home/notifications`)}>
+              <NotificationFilled className="icon" />
+            </a>
+            <a onClick={() => Navigate(`/home/profileSettings`)}>
+              <SettingFilled className="icon" />
+            </a>
+          </Space>
           <Avatar
             size={40}
             icon={<UserOutlined style={{ color: colors.dark }} />}
@@ -95,27 +71,18 @@ const MainPage = () => {
           />
         </Space>
       </Header>
-      <Layout>
-        <Sider width={200} style={{ background: colorBgContainer }}>
-          <Menu
-            mode="inline"
-            onClick={onClick}
-            defaultSelectedKeys={selectedKey}
-            defaultOpenKeys={"home"}
-            style={{ height: "100%", borderRight: 0 }}
-            items={items2}
-          />
-        </Sider>
-        <Layout style={{ padding: "14px 0px 0px 14px" }}>
-          <Content
-            style={{
-              margin: 0,
-              minHeight: 280,
-            }}
-          >
-            <Outlet />
-          </Content>
-        </Layout>
+      <Layout style={{ padding: "14px 0px 0px 14px" }}>
+        <Content
+          style={{
+            margin: 0,
+            minHeight: 280,
+            width: "90%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <Outlet />
+        </Content>
       </Layout>
     </Layout>
   )
