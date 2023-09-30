@@ -1,11 +1,14 @@
 import React from "react"
 import avatar from "./Assets/avatar.jpg"
 import FeedImage from "./Assets/feed-image.jpg"
-import { Avatar, Card, Space, Typography, Badge, Divider } from "antd"
+import { Avatar, Card, Space, Typography, Badge, Divider, Button } from "antd"
 import { LikeFilled, DislikeFilled, MessageFilled } from "@ant-design/icons"
 import styled from "styled-components"
 import { colors } from "../../../colors"
+import ProfileCard from "./ProfileCard"
+import GlanceCards from "./GlanceCards"
 
+const { Text, Link } = Typography
 const feed = [
   {
     id: "1",
@@ -38,7 +41,7 @@ const FeedContainer = styled.div`
 `
 const OuterContainer = styled(Space)`
   display: grid;
-  grid-template-columns: 0.6fr 1.8fr 0.6fr;
+  grid-template-columns: 0.6fr auto 0.6fr;
   grid-template-rows: 1fr;
   align-items: flex-start;
   margin: 0px auto;
@@ -110,30 +113,6 @@ const SideProfileCards = styled(Space)`
   width: 300px;
   border-radius: 10px;
 `
-const CardProfile = styled(Space)`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-`
-
-const ProfileImage = styled(Space)`
-  margin: auto;
-  height: 100px;
-  width: 100px;
-  border-radius: 50%;
-  overflow: hidden;
-`
-const TextContainer = styled(Space)`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-  text-align: center;
-`
-const { Text, Link } = Typography
 
 export const FeedCard = ({ item }) => {
   return (
@@ -187,33 +166,7 @@ export const FeedCard = ({ item }) => {
 function index() {
   return (
     <OuterContainer>
-      <SideProfileCards>
-        <CardProfile>
-          <ProfileImage>
-            <img src={avatar} />
-          </ProfileImage>
-          <TextContainer>
-            <Typography.Text style={{ textAlign: "center" }}>
-              Satya Ganesh
-            </Typography.Text>
-            <Typography.Text>Full Stack Developer</Typography.Text>
-          </TextContainer>
-          <Space>
-            <TextContainer>
-              <Typography>Followers</Typography>
-              <Typography>100</Typography>
-            </TextContainer>
-            <TextContainer>
-              <Typography>Following</Typography>
-              <Typography>100</Typography>
-            </TextContainer>
-            <TextContainer>
-              <Typography>Friends</Typography>
-              <Typography>100</Typography>
-            </TextContainer>
-          </Space>
-        </CardProfile>
-      </SideProfileCards>
+      <ProfileCard />
       <Container>
         <FeedCard item={feed[0]} />
         <FeedCard item={feed[0]} />
@@ -223,38 +176,7 @@ function index() {
         <FeedCard item={feed[0]} />
         <FeedCard item={feed[0]} />
       </Container>
-      <SideCards size="small" direction="vertical">
-        <Badge count={5}>
-          <NotificationCard
-            title="New Messages"
-            extra={<a href="#">Show All</a>}
-            style={{
-              width: 300,
-            }}
-          >
-            <p>New Message from Praveen Kumar</p>
-            <AntDivider />
-            <p>New Message from Anand_Hailstrom</p>
-            <AntDivider />
-            <p>New Message from Kathik N</p>
-          </NotificationCard>
-        </Badge>
-        <Badge count={10}>
-          <NotificationCard
-            title="New Notifications"
-            extra={<a href="#">Show All</a>}
-            style={{
-              width: 300,
-            }}
-          >
-            <p>Karthik commented on your post</p>
-            <AntDivider />
-            <p>Karthik and 20 more liked your post</p>
-            <AntDivider />
-            <p>Rithika and 16 more commented on your post</p>
-          </NotificationCard>
-        </Badge>
-      </SideCards>
+      <GlanceCards />
     </OuterContainer>
   )
 }

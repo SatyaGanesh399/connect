@@ -1,8 +1,9 @@
 import React from "react"
 import styled from "styled-components"
-import { Typography, Button } from "antd"
-import { DownloadOutlined } from "@ant-design/icons"
+import { Typography, Button, Divider } from "antd"
+import { GoogleOutlined } from "@ant-design/icons"
 import { colors } from "../../colors"
+import { ReactComponent as GoogleIcon } from "../../images/google.svg"
 import { useNavigate } from "react-router-dom"
 
 import Friends from "./Assets/funky.jpg"
@@ -22,6 +23,7 @@ const InnerContainer = styled.div`
   width: 35%;
   height: 100vh;
   padding: 40px;
+  padding-top: 130px;
   background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);
   display: flex;
   flex-direction: column;
@@ -33,7 +35,8 @@ const ButtonContainer = styled.div`
   width: 300px;
   margin: 5px auto;
   padding: 12px;
-  background-color: ${colors.primary};
+  background-color: ${(props) =>
+    props.colors ? props.colors.background : colors.primary};
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -41,9 +44,10 @@ const ButtonContainer = styled.div`
   cursor: pointer;
   p {
     margin: 0;
-    color: ${colors.white};
+    color: ${(props) => (props.colors ? props.colors.color : colors.white)};
     font-size: 1.1rem;
     font-weight: 500;
+    opacity: ${(props) => (props.colors ? props.colors.opacity : 1)};
   }
   &:hover {
     opacity: 0.8;
@@ -102,6 +106,18 @@ function FirstPage() {
           </ButtonContainer>
           <ButtonContainer onClick={() => Navigate("/register")}>
             <p>Register</p>
+          </ButtonContainer>
+          <Divider plain style={{ color: "white" }}>
+            or else
+          </Divider>
+          <ButtonContainer
+            onClick={() => Navigate("/register")}
+            colors={{ background: "white", color: "#111", opacity: 0.6 }}
+          >
+            <GoogleIcon
+              style={{ width: "20px", height: "20px", marginRight: 10 }}
+            />
+            <p>Google</p>
           </ButtonContainer>
         </Header>
       </InnerContainer>
