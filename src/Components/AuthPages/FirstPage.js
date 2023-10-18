@@ -7,6 +7,9 @@ import { ReactComponent as GoogleIcon } from "../../images/google.svg"
 import { useNavigate } from "react-router-dom"
 
 import Friends from "./Assets/funky.jpg"
+import axios from "axios"
+
+console.log("databse", process.env.DB_URL)
 
 const { Title, Text } = Typography
 
@@ -73,6 +76,10 @@ const Img = styled.img`
 
 function FirstPage() {
   const Navigate = useNavigate()
+
+  const handleGoogleAuthentication = () => {
+    window.open(`http://localhost:8080/auth/google/callback`, "_self")
+  }
   return (
     <Container>
       <ImageContainer>
@@ -111,7 +118,7 @@ function FirstPage() {
             or else
           </Divider>
           <ButtonContainer
-            onClick={() => Navigate("/register")}
+            onClick={() => handleGoogleAuthentication()}
             colors={{ background: "white", color: "#111", opacity: 0.6 }}
           >
             <GoogleIcon

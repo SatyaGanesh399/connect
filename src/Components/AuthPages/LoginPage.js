@@ -66,7 +66,7 @@ function LoginPage() {
 
   const onFinish = async ({ username, password }) => {
     try {
-      let response = await axios.post("http://localhost:8000/auth/login", {
+      let response = await axios.post(DB_URL + "/auth/login", {
         username,
         password,
       })
@@ -201,5 +201,6 @@ function LoginPage() {
     </Container>
   )
 }
-
+const DB_URL = "localhost:8080"
+export { DB_URL }
 export default LoginPage

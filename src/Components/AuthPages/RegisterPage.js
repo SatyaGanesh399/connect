@@ -9,7 +9,7 @@ import { FiChevronLeft } from "react-icons/fi"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import ImgCrop from "antd-img-crop"
-
+import { DB_URL } from "./LoginPage"
 const { Title } = Typography
 
 const Container = styled.div`
@@ -150,11 +150,7 @@ function RegisterPage() {
     }
 
     try {
-      let response = await axios.post(
-        "http://localhost:8000/auth/signup",
-        formData,
-        config
-      )
+      let response = await axios.post(DB_URL + "/auth/signup", formData, config)
       console.log(response)
       if (response.data.status === 200) {
         await messageApi.open({
